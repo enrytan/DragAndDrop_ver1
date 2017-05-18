@@ -1,0 +1,75 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DnD1</title>
+
+<style>
+#div1, #div2 {
+    float: left;
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    padding: 0px;
+    border: 1px dashed black;
+}
+</style>
+
+<script>
+    var dragSrcEl = null;
+
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function dragStart(ev) {
+        dragSrcEl = this;
+        console.log(dragSrcEl);
+        ev.dataTransfer.effectAllowed = 'move';
+        ev.dataTransfer.setData('text/html', this.innerHTML);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+
+        if (dragSrcEl != this) {
+            console.log(dragSrcEl);
+
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    }
+</script>
+
+</head>
+
+<body>
+
+    <h2>Drag and Drop</h2>
+    <p>Drag the image back and forth between the two div elements.</p>
+
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="dragStart(event)">
+        <div style="background:#ccc;width:100px;height:100px;" draggable="true" ondragstart="drag(event)" id="drag1">A</div>
+    </div>
+
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="dragStart(event)">
+        <div style="background:#ccc;width:100px;height:100px;" draggable="true" ondragstart="drag(event)" id="drag2">B</div>
+    </div>
+
+    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+</body>
+
+</html>
